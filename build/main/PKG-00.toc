@@ -6,31 +6,48 @@
   'EXTENSION': 1,
   'PYMODULE': 1,
   'PYSOURCE': 1,
-  'PYZ': 0},
+  'PYZ': 0,
+  'SPLASH': 1},
  [('PYZ-00.pyz',
    'E:\\Documents\\.Python projects\\Finished '
    'projects\\Stopwatch\\build\\main\\PYZ-00.pyz',
    'PYZ'),
-  ('struct',
-   'c:\\users\\aiden\\appdata\\local\\programs\\python\\python39\\lib\\struct.pyo',
-   'PYMODULE'),
+  ('struct', 'C:\\Program Files\\Python39\\lib\\struct.pyo', 'PYMODULE'),
   ('pyimod01_os_path',
-   'c:\\users\\aiden\\appdata\\local\\programs\\python\\python39\\lib\\site-packages\\PyInstaller\\loader\\pyimod01_os_path.pyc',
+   'e:\\documents\\.python projects\\finished '
+   'projects\\stopwatch\\venv\\lib\\site-packages\\PyInstaller\\loader\\pyimod01_os_path.pyc',
    'PYMODULE'),
   ('pyimod02_archive',
-   'c:\\users\\aiden\\appdata\\local\\programs\\python\\python39\\lib\\site-packages\\PyInstaller\\loader\\pyimod02_archive.pyc',
+   'e:\\documents\\.python projects\\finished '
+   'projects\\stopwatch\\venv\\lib\\site-packages\\PyInstaller\\loader\\pyimod02_archive.pyc',
    'PYMODULE'),
   ('pyimod03_importers',
-   'c:\\users\\aiden\\appdata\\local\\programs\\python\\python39\\lib\\site-packages\\PyInstaller\\loader\\pyimod03_importers.pyc',
+   'e:\\documents\\.python projects\\finished '
+   'projects\\stopwatch\\venv\\lib\\site-packages\\PyInstaller\\loader\\pyimod03_importers.pyc',
+   'PYMODULE'),
+  ('pyimod04_ctypes',
+   'e:\\documents\\.python projects\\finished '
+   'projects\\stopwatch\\venv\\lib\\site-packages\\PyInstaller\\loader\\pyimod04_ctypes.pyc',
    'PYMODULE'),
   ('pyiboot01_bootstrap',
-   'c:\\users\\aiden\\appdata\\local\\programs\\python\\python39\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'e:\\documents\\.python projects\\finished '
+   'projects\\stopwatch\\venv\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgutil',
+   'E:\\Documents\\.Python projects\\Finished '
+   'projects\\Stopwatch\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
    'PYSOURCE'),
   ('pyi_rth_multiprocessing',
-   'C:\\Users\\Aiden\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'E:\\Documents\\.Python projects\\Finished '
+   'projects\\Stopwatch\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'E:\\Documents\\.Python projects\\Finished '
+   'projects\\Stopwatch\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
    'PYSOURCE'),
   ('pyi_rth_pkgres',
-   'C:\\Users\\Aiden\\AppData\\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
+   'E:\\Documents\\.Python projects\\Finished '
+   'projects\\Stopwatch\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
    'PYSOURCE'),
   ('main',
    'E:\\Documents\\.Python projects\\Finished projects\\Stopwatch\\main.py',
@@ -42,4 +59,7 @@
  True,
  False,
  False,
- [])
+ [],
+ None,
+ None,
+ None)

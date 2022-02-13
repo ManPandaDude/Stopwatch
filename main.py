@@ -1,4 +1,5 @@
 import pygame
+import gc
 from datetime import timedelta
 from timeit import default_timer
 from data.text import Font
@@ -37,7 +38,7 @@ def create_menu_item(menu, label, func):
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self):
         super(TaskBarIcon, self).__init__()
-        self.SetIcon(wx.Icon("icon.ico"), "Stopwatch")
+        self.SetIcon(wx.Icon("data/white_icon.png"), "Stopwatch")
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.maximize_screen)
 
     def CreatePopupMenu(self):
@@ -51,6 +52,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         """Maximises screen when user clicks on task bar icon"""
         global screen
         screen = pygame.display.set_mode((386, 233))
+        pygame.display.set_icon(icon)
 
     def exit(self, _event):
         """Closes program"""
@@ -108,9 +110,11 @@ while running:
                     old_time = default_timer() - start
 
         # Minimizes program to system tray(basically just hides the window)
+        # Tray icon exists all the time so user can just click tray icon to maximize it or close it
         if event.type == pygame.QUIT:
             screen = pygame.display.set_mode((386, 233), pygame.HIDDEN)
 
     # Updates screen
     pygame.display.flip()
     clock.tick(24)
+    gc.collect()
