@@ -1,2 +1,0 @@
-pyinstaller -F --windowed -i icon.ico main.spec
-pyinstaller --windowed -i icon.ico main.py  for not in one exe
