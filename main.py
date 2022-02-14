@@ -1,17 +1,18 @@
 import pygame
-import gc
+import pystray
+from PIL import Image
+import webbrowser
 from datetime import timedelta
 from timeit import default_timer
 from data.text import Font
-import wx.adv
-import wx
 
-# Pygame init
-pygame.init()
-screen = pygame.display.set_mode((386, 233))
-icon = pygame.image.load("./data/icon.png").convert_alpha()
-pygame.display.set_caption("Stopwatch")
-pygame.display.set_icon(icon)
+pygame.init()  # Pygame init
+display = pygame.display.set_mode((386, 233), pygame.RESIZABLE)  # Pygame window
+pygame.display.set_caption("Stopwatch")  # Sets window caption
+
+pil_icon_image = Image.open("data/white_icon.png")  # Icon image for system tray icon
+black_icon_image = pygame.image.load("data/icon.png").convert_alpha()  # Icon for window
+pygame.display.set_icon(black_icon_image)  # Sets window icon
 
 # Timers
 clock = pygame.time.Clock()  # Pygame clock for limiting framerate
@@ -26,39 +27,27 @@ duration = 0  # Duration of time that has passed in seconds
 total_time = "0" + str(timedelta(seconds=int(duration)))  # Converts duration(time in seconds) to hours, minutes, and seconds
 
 
-# Creates a menu for the task bar icon
-def create_menu_item(menu, label, func):
-    item = wx.MenuItem(menu, -1, label)
-    menu.Bind(wx.EVT_MENU, func, id=item.GetId())
-    menu.Append(item)
-    return item
+def maximize_window():
+    """Maximizes window"""
+    global display
+    global icon
+    display = pygame.display.set_mode((386, 233), pygame.RESIZABLE)  # Re-initializes window so that it's not hidden anymore
+    pygame.display.set_icon(black_icon_image)  # Resets window icon
+    icon.visible = False
+    icon.stop()  # Stops system tray icon
 
 
-# Class for the task bar icon
-class TaskBarIcon(wx.adv.TaskBarIcon):
-    def __init__(self):
-        super(TaskBarIcon, self).__init__()
-        self.SetIcon(wx.Icon("data/white_icon.png"), "Stopwatch")
-        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.maximize_screen)
+def close():
+    """Closes program"""
+    global running
+    running = False  # Ends main loop
+    icon.visible = False
+    icon.stop()  # Stops system tray icon
 
-    def CreatePopupMenu(self):
-        """Creates a popup menu, runs when new TaskBarIcon is created because this is overwriting the CreatePopupMenu method"""
-        menu = wx.Menu()
-        create_menu_item(menu, 'Exit', self.exit)
-        return menu
 
-    # noinspection PyMethodMayBeStatic
-    def maximize_screen(self, _event):
-        """Maximises screen when user clicks on task bar icon"""
-        global screen
-        screen = pygame.display.set_mode((386, 233))
-        pygame.display.set_icon(icon)
-
-    def exit(self, _event):
-        """Closes program"""
-        global running
-        self.Destroy()
-        running = False
+def open_github():
+    """Opens the Github page for this project"""
+    webbrowser.open('https://github.com/ManPandaMakes/Stopwatch')
 
 
 def update_button(first_color, second_color, _button_state):
@@ -74,12 +63,14 @@ def update_button(first_color, second_color, _button_state):
     return _mouse_hover
 
 
-app = wx.App()  # Wx.App(), this is needed for TaskBarIcon to work
-TaskBarIcon()  # Creates a task bar icon
+# Menu for system tray icon
+menu = (pystray.MenuItem('Github', open_github,), pystray.MenuItem('Exit', close), pystray.MenuItem("maximise window", maximize_window, default=True, visible=False))
+
 running = True
 while running:
 
-    screen.fill((23, 23, 23))
+    display.fill((0, 0, 0))
+    clock.tick(24)  # Sets the framerate to 24
     mouse = pygame.mouse.get_pos()
 
     if button_state:
@@ -92,13 +83,13 @@ while running:
         duration += (default_timer() - start) - old_time  # Increases time
         old_time = default_timer() - start  # Old time from last iteration of loop
         mouse_hover = update_button((255, 10, 10), (160, 0, 0), "PAUSE")  # Updates button and returns if the mouse is hovering over button or not
-        screen.blit(button, (5, 106))  # Blits button
-        timer_font.render("PAUSE", screen, [(57, 119)])  # Renders "PAUSE" text on button
+        display.blit(button, (5, 106))  # Blits button
+        timer_font.render("PAUSE", display, [(57, 119)])  # Renders "PAUSE" text on button
     else:
         mouse_hover = update_button((10, 138, 10), (0, 128, 0), "START")  # Updates button and returns if the mouse is hovering over button or not
-        screen.blit(button, (5, 106))  # Blits button
-        timer_font.render("START", screen, [(57, 119)])  # Renders "START" text on button
-    timer_font.render(total_time, screen, [(5, 5)])  # Renders time to screen, hours, minutes, and seconds(HH/MM/SS)
+        display.blit(button, (5, 106))  # Blits button
+        timer_font.render("START", display, [(57, 119)])  # Renders "START" text on button
+    timer_font.render(total_time, display, [(5, 5)])  # Renders time to screen, hours, minutes, and seconds(HH/MM/SS)
 
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
@@ -109,12 +100,10 @@ while running:
                 if button_state:
                     old_time = default_timer() - start
 
-        # Minimizes program to system tray(basically just hides the window)
-        # Tray icon exists all the time so user can just click tray icon to maximize it or close it
-        if event.type == pygame.QUIT:
-            screen = pygame.display.set_mode((386, 233), pygame.HIDDEN)
+        # If user clicks close button, minimize to system tray
+        if event.type == pygame.QUIT:  # If user clicks the close button:
+            screen = pygame.display.set_mode((386, 233), pygame.HIDDEN)  # Hides pygame window
+            icon = pystray.Icon("Stopwatch", pil_icon_image, "Stopwatch", menu)  # System tray icon, I have to redeclare it every time because otherwise it'll crash
+            icon.run()  # Re-initializes system tray icon
 
-    # Updates screen
-    pygame.display.flip()
-    clock.tick(24)
-    gc.collect()
+    pygame.display.flip()  # Updates screen
