@@ -25,7 +25,7 @@ button = pygame.Surface((376, 122))  # Creates the start/stop button
 button_state = False  # Boolean button_state, True is PAUSE button state, and False is START button state
 duration = 0  # Duration of time that has passed in seconds
 total_time = "0" + str(timedelta(seconds=int(duration)))  # Converts duration(time in seconds) to hours, minutes, and seconds
-
+#do github stuff
 
 def maximize_window():
     """Maximizes window"""
